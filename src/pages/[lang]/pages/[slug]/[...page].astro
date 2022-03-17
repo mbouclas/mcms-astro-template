@@ -1,0 +1,58 @@
+---
+import MainLayout from '../../../../layouts/main.astro';
+import Paginator from '../../../../components/paginator.astro';
+import {Data} from '../../../../services/boot';
+import {CategoriesService} from '../../../../services/categories.service';
+// Foreach category create an array of items. Loop through the flat categories, return an array of objects where you have cat as a property in item
+// flatten all arrays in the end to get the stuff
+
+export async function getStaticPaths({ rss }) {
+    let all = [];
+    const service = await (new CategoriesService).load();
+    await Data.boot();
+
+    Data.locales.forEach(locale => {
+      all = all.concat(service.createPathsFromPaginator().map(item => {
+        return {
+          ...item,
+          ...{lang: locale.code}
+        }
+      }));
+    })
+
+
+const paths = all.map(({ astro, url, file, ...item }) => {
+
+    return {
+      params: {
+        lang: item.lang,
+        page: (item.page === 1) ? undefined : item.page.toString(),
+        slug: item.slug,
+      },
+      props: {
+        item
+      }
+    };
+});
+
+
+return paths;
+
+}
+
+const {item} = Astro.props;
+const lang = Astro.request.params.lang;
+const baseUrl = `/${lang}/pages/${item.slug}`;
+---
+
+          <MainLayout>
+<h1 class="font-bold text-black">{item.title[lang]}</h1>
+<ul>
+{item.items.data.map(i => (
+  <li><a href={`/${lang}/page/${i.slug}`}>{i.title[lang]}</a></li>
+))}
+</ul>
+
+<Paginator paging={item.items} baseUrl={baseUrl}></Paginator>
+
+</MainLayout>

@@ -1,0 +1,21 @@
+---
+import clsx from "clsx";
+const {items, lang, isChild} = Astro.props;
+
+function constructLink(item) {
+  if (item.link) {return item.link};
+
+  return `/${lang}${item.permalink}`;
+}
+---
+<ul>
+
+{items.map(item => (
+    <li class={clsx({'pl-2': isChild})}><a href={constructLink(item)} title={item.title[lang]}>{item.title[lang]}</a>
+
+    {item.children && item.children.length > 0 && (
+      <Astro.self items={item.children} isChild={true} lang={lang} />
+    )} 
+    </li>
+))}
+</ul>

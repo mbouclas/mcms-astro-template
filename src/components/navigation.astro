@@ -1,0 +1,13 @@
+---
+import Menu from '../partials/main-menu-ul.astro';
+const {menu, lang, locales} = Astro.props;
+
+---
+<nav>
+<ul>
+{locales.filter(locale => locale.code !== Astro.request.params.lang).map(locale => (
+    <li><a href="/${locale.code}">{locale.code}</a></li>
+))}
+</ul>
+<Menu items={menu.items} lang={lang}></Menu>
+</nav>

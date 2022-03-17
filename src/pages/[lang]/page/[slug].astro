@@ -1,0 +1,77 @@
+---
+import MainLayout from '../../../layouts/main.astro';
+import {Data} from '../../../services/boot';
+import {PageService} from '../../../services/page.service';
+
+
+
+
+export async function getStaticPaths({rss}) {
+    const all = [];
+    const pages = await (new PageService).load();
+    await Data.boot();
+    pages.forEach(page => {
+        Data.locales.forEach(locale => {
+            all.push({...{lang: locale.code}, ...page});
+        });
+    });
+
+
+ rss({
+    title: "Some Title",
+    description: "Writing by Sarah Rainsberger",
+    customData: `<language>en-us</language>`,
+    
+    items: all.map((item) => {
+      
+      const customData = `<guid isPermaLink="true">https://rainsberger.ca${item.slug}</guid>`
+      
+      return {
+        title: item.title[item.lang] || item.title[Data.lang],
+        description: item.description[item.lang] || item.description[Data.lang],
+        link: item.slug,
+        pubDate: item.created_at,
+        customData,
+      }
+    }),
+    
+    dest: "/pages.xml",
+
+  })
+
+
+const paths = all.map(({ astro, url, file, ...item }) => {
+    return {
+      params: {
+        lang: item.lang,
+        slug: item.slug,
+      },
+      props: {
+        page: item
+      }
+    };
+});
+
+
+return paths.filter(({ params }) => !!params.lang);
+
+}
+
+const {page} = Astro.props;
+const lang = Astro.request.params.lang;
+---
+
+      <MainLayout>
+<h1 class="font-bold text-black">{page.title[lang]}</h1>
+<section id="tags" class="border b-1 border-cyan-700 p-2">
+<h2 class="font-bold text-xl">Tags</h2>
+<ul class="inline-flex relative">
+{page.tagged.map(tag => (
+  <li class="ml-2"><a href={`/${lang}/tag/${tag.tag_slug}`}>{tag.tag_name}</a></li>
+))}
+</ul>
+</section>
+<section id="description" set:html={page.description[lang]} />
+<section id="description_long" set:html={page.description_long[lang]} />
+
+</MainLayout>

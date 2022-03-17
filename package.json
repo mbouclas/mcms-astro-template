@@ -1,0 +1,24 @@
+{
+  "name": "@example/minimal",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env LANG=el astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "build:english": "cross-env LANG=en astro build",
+    "dump:data": "node --experimental-modules scripts/index.mjs",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@astropub/webapi": "^0.10.14",
+    "astro": "^0.24.0",
+    "clsx": "^1.1.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "paginate": "^0.2.0",
+    "paginate-array": "^2.1.0",
+    "postcss": "^8.4.8",
+    "tailwindcss": "^3.0.23"
+  }
+}

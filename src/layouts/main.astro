@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+import Nav from '../components/navigation.astro';
+import {Data} from '../services/boot';
+await Data.boot();
+const lang = Astro.request.params.lang;
+const locales = Data.locales;
+const headerMenu = Data.menus.find(item => item.slug === 'header-menu');
+
+---
+<html lang={lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Astro</title>
+
+	</head>
+	<body>
+
+		<div class="px-4">
+        <Nav menu={headerMenu} lang={lang} locales={locales}></Nav>
+        <slot></slot>
+        </div>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+	</body>
+</html>

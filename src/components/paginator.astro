@@ -1,0 +1,120 @@
+---
+import {Translator} from '../helpers/translate';
+await (new Translator()).load();
+let {paging, numberOfButtons = 5, baseUrl} = Astro.props;
+let hasLess = false;
+let hasMore = false;
+const pages = paging.totalPages;
+const activePage = paging.currentPage;
+
+
+
+/*
+  currentPage: 2,
+  perPage: 10,
+  total: 33,
+  totalPages: 4,
+*/
+
+if (numberOfButtons > pages) {
+    numberOfButtons = pages;
+}
+
+let delta = Math.round(Math.floor(numberOfButtons / 2));
+let visibleRangeStart = activePage - delta;
+let visibleRangeEnd = activePage + delta;
+
+
+if (pages % 2 === 0) {
+    visibleRangeEnd = visibleRangeEnd - 1;
+}
+
+if (visibleRangeStart < 1) {
+    visibleRangeEnd = visibleRangeEnd - visibleRangeStart + 1;
+}
+
+if (visibleRangeEnd > pages) {
+    visibleRangeStart = visibleRangeStart - visibleRangeEnd + pages;
+}
+
+if (1 > visibleRangeStart) {
+    visibleRangeStart = 1;
+}
+
+if (pages < visibleRangeEnd) {
+    visibleRangeEnd = pages;
+}
+
+if (visibleRangeStart > 2) {
+    hasLess = true;
+}
+
+if (visibleRangeEnd + 1 < pages) {
+    hasMore = true;
+}
+
+
+const nextPageDisabled = (activePage === pages);
+const previousPageDisabled = activePage === 1;
+
+function constructUrl(page = 1) {
+    let url = baseUrl;
+    if (page === 1) {return url;}
+    
+    return `${baseUrl}/${page}`;
+}
+
+
+const html = [];
+        for (let i = 1; (pages + 1) > i; i++) {
+            if (i >= visibleRangeStart && i <= visibleRangeEnd) {
+                if (i == visibleRangeStart && visibleRangeStart != 1) {
+                    html.push(`<a class=" border-gray-300 text-gray-500 hover:bg-gray-100 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="${constructUrl(1)}">1</a>`);
+                    if (hasLess) {
+                        html.push(`<span class="relative inline-flex items-center px-4 py-2 border border-gray-300  text-sm font-medium text-gray-700">...</span>`)
+                    }
+                }
+
+                html.push(`<a class="${i === activePage ? 'page-active bg-brand-blue  z-10 border-primary' : ' text-gray-500 border-gray-300  hover:bg-gray-100'}    hidden md:block relative items-center px-4 py-2 border text-sm font-medium" href="${constructUrl(i)}">${i}</a>`);
+
+                if (i == visibleRangeEnd && visibleRangeEnd != pages) {
+                    if (hasMore) {
+                        html.push(`<span class="relative inline-flex items-center px-4 py-2 border border-gray-300  text-sm font-medium text-gray-700">...</span>`);
+                    }
+
+                    html.push(`<a class=" border-gray-300 text-gray-500 hover:bg-gray-100 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="${constructUrl(pages)}">${pages}</a>`)
+                }
+
+            }
+        }
+
+
+---
+
+    <div set:html={html.join('')} />
+
+<div>{Translator.translate('labels.pagination.page')} {paging.currentPage} {Translator.translate('labels.pagination.of')} {paging.totalPages}</div>
+<div class=" px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+<div class="flex-1 flex justify-between sm:hidden">
+
+</div><!-- END MOBILE-->
+<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+<div>
+      <p class="text-sm text-gray-700">
+      {Translator.translate('labels.pagination.from')}  <span class="font-medium">{(paging.perPage * activePage) - paging.perPage}</span>
+
+      {Translator.translate('labels.pagination.to')}
+
+      <span class="font-medium">{paging.perPage * activePage}</span>
+
+      {Translator.translate('labels.pagination.of')}
+
+      <span class="font-medium">{paging.total}</span>
+      </p>
+</div><!-- END FROM-TO -->
+
+////
+
+////
+</div><!--END DESKTOP-->
+</div>

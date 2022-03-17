@@ -2,12 +2,13 @@
 import MainLayout from '../../../layouts/main.astro';
 import {Data} from '../../../services/boot';
 import {PageService} from '../../../services/page.service';
-
+import {Translator} from '../../../helpers/translate';
 
 
 
 export async function getStaticPaths({rss}) {
     const all = [];
+    await (new Translator()).load();
     const pages = await (new PageService).load();
     await Data.boot();
     pages.forEach(page => {
@@ -25,10 +26,10 @@ export async function getStaticPaths({rss}) {
     items: all.map((item) => {
       
       const customData = `<guid isPermaLink="true">https://rainsberger.ca${item.slug}</guid>`
-      
+
       return {
-        title: item.title[item.lang] || item.title[Data.lang],
-        description: item.description[item.lang] || item.description[Data.lang],
+        title: item.title[item.lang] || item.title[Translator.defaultLang],
+        description: item.description[item.lang] || item.description[Translator.defaultLang],
         link: item.slug,
         pubDate: item.created_at,
         customData,

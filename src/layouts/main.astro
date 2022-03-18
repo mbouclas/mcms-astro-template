@@ -2,8 +2,11 @@
 import '../styles/global.css';
 import Nav from '../components/navigation.astro';
 import {Data} from '../services/boot';
+import {Translator} from '../helpers/translate';
+
 await Data.boot();
-const lang = Astro.request.params.lang;
+await (new Translator()).load();
+const lang = Astro.request.params.lang || Translator.defaultLang;
 const locales = Data.locales;
 const headerMenu = Data.menus.find(item => item.slug === 'header-menu');
 

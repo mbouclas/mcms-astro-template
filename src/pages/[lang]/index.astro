@@ -1,6 +1,8 @@
 ---
 import MainLayout from '../../layouts/main.astro';
 import {Data} from '../../services/boot';
+import HomepageWraper from '../../components/homepage/container.astro';
+
 await Data.boot();
 export async function getStaticPaths() {
 
@@ -10,21 +12,20 @@ const paths = Data.locales.map(({ astro, url, file, ...locale }) => {
         lang: locale.code
       },
       props: {
-        page: {
-          locale: locale.code,
-
-        }
+        lang: locale.code
       }
     };
 });
 
-return paths.filter(({ params }) => !!params.lang);
+// return paths.filter(({ params }) => !!params.lang);
+return paths;
 }
 
 
-const {page} = Astro.props;
+const {lang} = Astro.props;
+
 ---
 
   <MainLayout>
-<h1 class="font-bold text-black">Howdy {page.locale}</h1>
+<HomepageWraper lang={lang}></HomepageWraper>
 </MainLayout>

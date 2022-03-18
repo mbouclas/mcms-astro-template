@@ -48,7 +48,7 @@ class CategoriesService {
             const init = paginate(page.items, 1, perPage);
             //now we have a total pages, which means we can loop and create the array of paginated categories
             for (let idx = 0; init.totalPages > idx; idx++) {
-                console.log(i, '---', page.slug, idx+1)
+                // console.log(i, '---', page.slug, idx+1)
                 const paginated = paginate(page.items, idx+1, perPage);
                 all = all.concat({...page, ...{items: paginated}});
                 i++;

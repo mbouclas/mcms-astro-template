@@ -7,7 +7,8 @@ let path;
 if (fs.existsSync('/etc/secrets/.env')) {
 	path = '/etc/secrets/.env';
 }
-console.log(path);
+
+
 dotenv.config({path});
 
 // @ts-check

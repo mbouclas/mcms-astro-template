@@ -1,0 +1,17 @@
+---
+import {HomePageService} from '../../services/homepage.service';
+import {Translator} from '../../helpers/translate';
+import Slider from '../../components/homepage/regions/slider.astro';
+import Hero from '../../components/homepage/regions/hero.astro';
+import FeaturedArticles from '../../components/homepage/regions/featured-articles.astro';
+import LatestArticles from '../../components/homepage/regions/latest-articles.astro';
+
+const service = await (new HomePageService).load();
+await (new Translator()).load();
+
+const {lang = Translator.defaultLang} = Astro.props;
+---
+<Slider lang={lang} items={service.getRegionItems('slider')} />
+<Hero lang={lang} items={service.getRegionItems('hero')} />
+<FeaturedArticles lang={lang} items={service.getRegionItems('featuredArticles')} />
+<LatestArticles lang={lang} items={service.getRegionItems('latestArticles')} />

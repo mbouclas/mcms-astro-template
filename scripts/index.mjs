@@ -2,6 +2,13 @@ import { polyfill } from '@astropub/webapi';
 import { loadEnv } from 'vite';
 import fs from 'fs';
 import {writeFile} from 'fs/promises';
+import chalk from 'chalk';
+import minimist from 'minimist';
+import inquirer from 'inquirer';
+const argv = minimist(process.argv.slice(2));
+
+
+
 
 
 polyfill(globalThis, {
@@ -37,8 +44,8 @@ const cacheBootData = async () => {
         await writeFile('_cache/translations.json', JSON.stringify({...{defaultLang: bootData.defaultLang}, ...{translations: bootData.translations}}));
       }
       catch(e) {console.log('could not write boot file', e);}
-      
-      console.log(`>>> Boot data cached successfully`);
+      successMessage("Boot data cached successfully");
+
 };
 
 const cacheHomePage = async () => {
@@ -59,7 +66,7 @@ const cacheHomePage = async () => {
     catch(e) {console.log('could not write home file', e);
   }
   
-  console.log(`>>> Homepage data cached successfully`);
+  successMessage('Homepage data cached successfully');
 }
 
 const cacheCategories = async () => {
@@ -81,7 +88,7 @@ const cacheCategories = async () => {
     catch(e) {console.log('could not write categories file', e);
   }
 
-  console.log(`>>> Categories cached successfully`);
+  successMessage(`Categories cached successfully`);
 
 }
 
@@ -108,7 +115,7 @@ const cachePages = async () => {
   }
   catch(e) {console.log('could not write pages file', e);}
 
-  console.log(`>>> Pages cached successfully`);
+  successMessage(`Pages cached successfully`);
 }
 
 const cacheTags = async () => {
@@ -130,7 +137,7 @@ const cacheTags = async () => {
     catch(e) {console.log('could not write tags file', e);
   }
 
-  console.log(`>>> Tags cached successfully`);
+  successMessage(`Tags cached successfully`);
 }
 
 async function fetchPages(page=1) {
@@ -148,8 +155,41 @@ async function fetchPages(page=1) {
   return await response.json();
 }
 
-await cacheBootData();
-await cachePages();
-await cacheCategories();
-await cacheHomePage();
-// await cacheTags();
+function successMessage(msg) {
+  console.log(chalk.greenBright.bold(msg))
+}
+
+async function executeCommand(command) {
+  switch (command) {
+    case 'Boot': await cacheBootData();
+    break;
+    case 'Homepage': await cacheHomePage();
+    break;
+    case 'Categories': await cacheCategories();
+    break;
+    case 'Pages': await cachePages();
+    break;
+  }
+}
+
+const answers = await inquirer.prompt([{ type: 'checkbox', 
+name: 'commands', 
+message: 'What to Sync', 
+choices: ['All', 'Boot', 'Homepage', 'Categories', 'Pages']
+}]);
+
+
+if (answers.commands.indexOf('All') !== -1) {
+  await cacheBootData();
+  await cachePages();
+  await cacheCategories();
+  await cacheHomePage();
+  console.log(chalk.bgGreen.blackBright('All Done'));
+  process.exit();
+}
+
+
+for (let idx = 0; answers.commands.length > idx; idx++) {
+  await executeCommand(answers.commands[idx]);
+}
+console.log(chalk.bgGreen.blackBright('All Done'))

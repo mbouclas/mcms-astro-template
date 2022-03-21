@@ -11,8 +11,9 @@
     "preview": "astro preview"
   },
   "devDependencies": {
+    "@astrojs/renderer-lit": "^0.4.0",
     "@astropub/webapi": "^0.10.14",
-    "astro": "^0.24.0",
+    "astro": "^0.24.3",
     "chalk": "^5.0.1",
     "clsx": "^1.1.1",
     "cross-env": "^7.0.3",

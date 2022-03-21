@@ -75,4 +75,174 @@ const lang = Astro.request.params.lang;
 <section id="description" set:html={page.description[lang]} />
 <section id="description_long" set:html={page.description_long[lang]} />
 
+
+
+    <div class="relative py-16 bg-white overflow-hidden">
+      <div class="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full">
+        <div
+          class="relative h-full text-lg max-w-prose mx-auto"
+          aria-hidden="true"
+        >
+          <svg
+            class="absolute top-12 left-full transform translate-x-32"
+            width="404"
+            height="384"
+            fill="none"
+            viewBox="0 0 404 384"
+          >
+            <defs>
+              <pattern
+                id="74b3fd99-0a6f-4271-bef2-e80eeafdf357"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  x="0"
+                  y="0"
+                  width="4"
+                  height="4"
+                  class="text-lime"
+                  fill="currentColor"
+                />
+              </pattern>
+            </defs>
+            <rect
+              width="404"
+              height="384"
+              fill="url(#74b3fd99-0a6f-4271-bef2-e80eeafdf357)"
+            />
+          </svg>
+          <svg
+            class="absolute top-1/2 right-full transform -translate-y-1/2 -translate-x-32"
+            width="404"
+            height="384"
+            fill="none"
+            viewBox="0 0 404 384"
+          >
+            <defs>
+              <pattern
+                id="f210dbf6-a58d-4871-961e-36d5016a0f49"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  x="0"
+                  y="0"
+                  width="4"
+                  height="4"
+                  class="text-lime"
+                  fill="currentColor"
+                />
+              </pattern>
+            </defs>
+            <rect
+              width="404"
+              height="384"
+              fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"
+            />
+          </svg>
+          <svg
+            class="absolute bottom-12 left-full transform translate-x-32"
+            width="404"
+            height="384"
+            fill="none"
+            viewBox="0 0 404 384"
+          >
+            <defs>
+              <pattern
+                id="d3eb07ae-5182-43e6-857d-35c643af9034"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  x="0"
+                  y="0"
+                  width="4"
+                  height="4"
+                  class="text-lime"
+                  fill="currentColor"
+                />
+              </pattern>
+            </defs>
+            <rect
+              width="404"
+              height="384"
+              fill="url(#d3eb07ae-5182-43e6-857d-35c643af9034)"
+            />
+          </svg>
+        </div>
+      </div>
+      <div class="relative px-4 sm:px-6 lg:px-8">
+        <div class="text-lg max-w-prose mx-auto">
+          <h1>
+            <span
+              class="block text-base text-center text-primary font-semibold tracking-wide uppercase"
+              >Introducing</span
+            >
+            <span
+              class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-darkGray sm:text-4xl"
+              >{page.title[lang]}</span
+            >
+          </h1>
+
+          <div id="CategoriesList" class="flex justify-center px-2 sm:px-0">
+            <div class="flex items-center text-sm text-mediumGray">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                aria-hidden="true"
+                role="img"
+                class="flex-shrink-0 mr-1.5 h-5 w-5 text-primary"
+                width="32"
+                height="32"
+                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="currentColor"
+                  d="M14 25h14v2H14zm-6.83 1l-2.58 2.58L6 30l4-4l-4-4l-1.42 1.41L7.17 26zM14 15h14v2H14zm-6.83 1l-2.58 2.58L6 20l4-4l-4-4l-1.42 1.41L7.17 16zM14 5h14v2H14zM7.17 6L4.59 8.58L6 10l4-4l-4-4l-1.42 1.41L7.17 6z"
+                ></path>
+              </svg>
+              <ul role="list" class="leading-8">
+                <li class="inline">
+                  <a
+                    href="#"
+                    title=""
+                    class="relative inline-flex items-center rounded-full border border-mediumGray px-3 py-0.5"
+                  >
+                    <div
+                      class="absolute flex-shrink-0 flex items-center justify-center"
+                    >
+                      <span
+                        class="h-1.5 w-1.5 rounded-full bg-primary"
+                        aria-hidden="true"
+                      ></span>
+                    </div>
+                    <div class="ml-3.5 text-sm font-medium text-darkGray">
+                      Category name
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-8 text-xl text-mediumGray leading-8">
+          <div set:html={page.description[lang]}></div>
+          </div>
+        </div>
+        <div class="mt-6 prose prose-lime prose-lg text-mediumGray mx-auto">
+         <div set:html={page.description_long[lang]}></div>
+        </div>
+      </div>
+    </div>
 </MainLayout>

@@ -18,5 +18,7 @@ export default /** @type {import('astro').AstroUserConfig} */ ({
 		site: process.env.SITE_URL
 	},
 	// Comment out "renderers: []" to enable Astro's default component support.
-	renderers: [],
+	renderers: [
+		'@astrojs/renderer-lit'
+	],
 });

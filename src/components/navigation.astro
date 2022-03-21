@@ -5,7 +5,7 @@ const {menu, lang, locales} = Astro.props;
 ---
 <nav>
 <ul>
-{locales.filter(locale => locale.code !== Astro.request.params.lang).map(locale => (
+{locales.filter(locale => locale.code !== lang).map(locale => (
     <li><a href="/${locale.code}">{locale.code}</a></li>
 ))}
 </ul>

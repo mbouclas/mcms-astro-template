@@ -61,7 +61,6 @@ return paths.filter(({ params }) => !!params.lang);
 const {page} = Astro.props;
 const lang = Astro.request.params.lang;
 ---
-
       <MainLayout>
 <h1 class="font-bold text-black">{page.title[lang]}</h1>
 <section id="tags" class="border b-1 border-cyan-700 p-2">

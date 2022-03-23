@@ -1,0 +1,9 @@
+---
+    import {IconService} from '../services/icons.service';
+
+const {name, css} = Astro.props;
+
+const icon = (new IconService).find(name, css); 
+---
+
+    {icon.svg}
